@@ -1,0 +1,98 @@
+﻿
+@model IEnumerable<Empleados_Test.Models.Employee>
+@{ ViewBag.Title = "Index"; }
+
+<h2><br />Empleados</h2>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+<div class="card-body">
+    <div class="row align-items-md-end">
+
+        <div class="col-lg-4">
+            <div class="mb-2">
+                <label class="form-label">Nombre:</label>
+                <input class="form-control" type="text" id="textNombre" autocomplete="on" name="tNombre" />
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="mb-2">
+                @Html.ActionLink("Filtrar", "Filtrar", "Empleados",
+                                                                 new { S_Nombre = "tNombre" }, new { @class = "btn btn-info", id = "Filtrar", style = "margin-right: 10px" })
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="mb-2">
+                @Html.ActionLink("Restaurar", "Limpiar", "Empleados", new { @class = "btn btn-danger", id = "Limpiar", style = "margin-righr:10px" })
+            </div>
+        </div>
+
+
+        <div class="col-lg-2">
+            <div class="mb-2">
+                @Html.ActionLink("Nuevo Empleado", "Create", new { area = "" }, new { @class = "btn btn-primary", style = "display:" + @ViewBag.UsuariosCrear })
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@{ var wgrid = new WebGrid(source: Model, canSort: false, rowsPerPage: 10); }
+
+<div class="row">
+    <div class="Col-md-12">
+        @wgrid.GetHtml(mode: WebGridPagerModes.All, firstText: "<<Primera", previousText: "<Anterior", nextText: "Siguiente>", lastText: "última>>",
+                    tableStyle: "table table-bordered table-striped text-center", htmlAttributes: new { id = "wgrid" },
+                    columns: wgrid.Columns(
+                    wgrid.Column(columnName: "Name", header: "Nombre"),
+                    wgrid.Column(columnName: "LastName", header: "Apellido Paterno"),
+                     wgrid.Column(columnName: "M_LastName", header: "Apellido Materno"),
+                    wgrid.Column(columnName: "RFC", header: "RFC"),
+                    wgrid.Column(columnName: "BornDate", header: "Fecha de Nacimiento"),
+                    wgrid.Column(header: "Editar", format:@<a href="~/Empleados/Edit/@item.ID"><i class="btn bi bi-pen-fill" style="font-size:25px;"></i></a>),
+                                 wgrid.Column(header: "Eliminar", format:@<a href="~/Empleados/Delete/@item.ID"><i class="btn bi bi-trash-fill" style=" font-size:25px; "></i></a>)
+                                                  )
+                                             )
+    </div>
+</div>
+
+@{ if (ViewBag.Message == "no_seleccion")
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                no_seleccion();
+            };</script>
+        }
+    }
+
+    @section Scripts{
+        <script>
+            $(function () {
+
+                $("#Filtrar").click(function () {
+
+                    var empleado = $("#textNombre").val();
+                    this.href = this.href.replace("tNombre", empleado);
+
+                })
+            })
+
+
+            function no_seleccion()
+            {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ingresa el nombre de un Empleado',
+                    width: '40%',
+                    showConfirmButton: false,
+                    position: 'top',
+                })
+            }
+
+        </script>
+
+
+    }

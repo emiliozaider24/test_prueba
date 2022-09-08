@@ -1,0 +1,82 @@
+﻿@model Empleados_Test.Models.Employee
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row align-items-center justify-content-center mt-3">
+    <div class="col-6 mt-3">
+        <h4 class="text-center">Editar Registro</h4>
+    </div>
+</div>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+
+<div class="row align-items-center justify-content-center mt-3">
+    <div class="col-md-7">
+        <form method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="accordion-item">
+                <div class="accordion-body">
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre de Empleado" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Apellido Paterno" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.M_LastName, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.M_LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Apellido Materno" } })
+                        @Html.ValidationMessageFor(model => model.M_LastName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.BornDate, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.BornDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/DD HH:mm:ss" } })
+                        @Html.ValidationMessageFor(model => model.BornDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.RFC, htmlAttributes: new { @class = "form-label" })
+                        @Html.EditorFor(model => model.RFC, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);",
+                                type = "text",
+                                maxlength = "13",
+                                @placeholder = "RFC"
+                            }
+                        })
+                        @Html.ValidationMessageFor(model => model.RFC, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="row align-items-center justify-content-center mt-3">
+                        <div class="col-6 mt-3">
+                            <div class="d-flex justify-content-evenly mt-4 mb-5 btn-group">
+                                <input type="submit" value="Aceptar" class="btn  btn-outline-primary" />
+                                @Html.ActionLink("Regresar", "Index", new { area = "" }, new { @class = "btn btn-outline-warning" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
